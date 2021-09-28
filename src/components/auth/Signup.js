@@ -3,12 +3,16 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 import TextInput from "../TextInput";
+import LoadingSpinner from "../LoadingSpinner";
+import ErrorMessage from "../ErrorMessage";
 
 import { authContext } from "../../contexts/authContext";
 
 function Signup() {
   // o useState é um Hook (função) que retorna uma array. No índice 0, está o seu state (que não é mais obrigatório como objeto, agora pode ser qualquer tipo de dado, como arrays, booleans ou strings) e no índice 1, está uma função para atualizar esse state. Assim como nas classes, toda vez que a função de atualização de state for invocada, o componente é re-renderizado
   const [state, setState] = useState({ email: "", password: "", name: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const history = useHistory();
 
@@ -31,13 +35,27 @@ function Signup() {
     event.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/api/v1/signup",
         state
       );
       console.log(response);
+
+      setLoading(false);
+      history.push("/login");
     } catch (err) {
-      console.error(err);
+      console.error(err.response);
+      setLoading(false);
+
+      if (!err.response.data) {
+        return setError("Erro desconhecido");
+      }
+
+      if (err.response.data.err) {
+        return setError(err.response.data.err.message);
+      }
+      return setError(err.response.data.msg);
     }
   }
 
@@ -75,11 +93,17 @@ function Signup() {
           value={state.password}
         />
 
-        <div className="mb-3">
-          <button type="submit" className="btn btn-primary">
-            Enviar
-          </button>
-        </div>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="mb-3">
+            <button type="submit" className="btn btn-primary">
+              Enviar
+            </button>
+          </div>
+        )}
+
+        {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       </form>
     </div>
   );

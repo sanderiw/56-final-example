@@ -7,8 +7,11 @@ import Navbar from "./Navbar";
 
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
+import PrivateRoute from "./auth/PrivateRoute";
 
 import ProjectList from "./project/ProjectList";
+import ProjectDetail from "./project/ProjectDetail";
+import ProjectDelete from "./project/ProjectDelete";
 
 function App() {
   return (
@@ -19,7 +22,15 @@ function App() {
           {/* ATENÇÃO: essas rotas NÃO tem relação com as rotas do backend, portanto os nomes podem ser diferentes */}
           <Route path="/cadastro-usuario" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/projetos" component={ProjectList} />
+          <PrivateRoute exact path="/projetos" component={ProjectList} />
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/projeto/deletar/:id"
+              component={ProjectDelete}
+            />
+            <PrivateRoute exact path="/projeto/:id" component={ProjectDetail} />
+          </Switch>
         </div>
       </AuthContextComponent>
     </BrowserRouter>

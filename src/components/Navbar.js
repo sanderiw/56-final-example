@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/projects">
+        <NavLink className="navbar-brand" to="/projetos">
           Project.io
         </NavLink>
         <button
@@ -26,7 +26,7 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/projects">
+              <NavLink className="nav-link" to="/projetos">
                 Home
               </NavLink>
             </li>
