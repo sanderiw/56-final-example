@@ -12,6 +12,10 @@ import PrivateRoute from "./auth/PrivateRoute";
 import ProjectList from "./project/ProjectList";
 import ProjectDetail from "./project/ProjectDetail";
 import ProjectDelete from "./project/ProjectDelete";
+import ProjectCreate from "./project/ProjectCreate";
+import ProjectEdit from "./project/ProjectEdit";
+import TaskEdit from "./project/TaskEdit";
+import TaskDelete from "./project/TaskDelete";
 
 function App() {
   return (
@@ -22,14 +26,18 @@ function App() {
           {/* ATENÇÃO: essas rotas NÃO tem relação com as rotas do backend, portanto os nomes podem ser diferentes */}
           <Route path="/cadastro-usuario" component={Signup} />
           <Route path="/login" component={Login} />
-          <PrivateRoute exact path="/projetos" component={ProjectList} />
+          <Route exact path="/projetos" component={ProjectList} />
+          <Route exact path="/criar-projeto" component={ProjectCreate} />
           <Switch>
             <PrivateRoute
               exact
               path="/projeto/deletar/:id"
               component={ProjectDelete}
             />
-            <PrivateRoute exact path="/projeto/:id" component={ProjectDetail} />
+            <Route exact path="/projeto/:id" component={ProjectDetail} />
+            <Route exact path="/editar-projeto/:id" component={ProjectEdit} />
+            <Route exact path="/editar-task/:id" component={TaskEdit} />
+            <Route exact path="/deletar-task/:id" component={TaskDelete} />
           </Switch>
         </div>
       </AuthContextComponent>
